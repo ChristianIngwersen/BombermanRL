@@ -2,7 +2,7 @@
 DTU course 2456 Deep learning project. 
 We've chosen the Pommerman reinforcement learning project. The enviroment used is the [playground enviroment](https://github.com/MultiAgentLearning/playground) used for the NIPS 2018 Pommerman competion (<https://www.pommerman.com>).
 
-## Project goal
+## Project goals
 The overall goal with the project is to make a submission to the NIPS 2018 competition (*Deadline November 21st*).
 
 **The subgoals to our agents are the following:**
@@ -12,7 +12,11 @@ The overall goal with the project is to make a submission to the NIPS 2018 compe
   
  If we succed on the above goals it would be interesting to add **_imitation learning_** to our agents in order to make two agents collaborate in the competetion. 
   
-## Policy gradient learning vs. evolutionary learning
+## Approach
 We'll start by using [Ross Wightman's PyTorch model](https://github.com/rwightman/pytorch-pommerman-rl) as a starting point. He succeds to beat three SimpleAgents **_95%_** of the games using policy gradient learning. 
 
-We believe that evolutionary learning will be a good approach to the Pommerman problem because the reward of the game is only calculated once, the variance of each action evaluation is less impactful and since the evaluation time is far smaller, more training steps can be achieved.
+**Policy gradient learning vs. evolutionary learning**
+We believe that evolutionary learning will be a good approach to the Pommerman problem because the reward of the game is only calculated once, the variance of each action evaluation is less impactful and since the evaluation time is far smaller, more training steps can be achieved. However, 
+
+
+
