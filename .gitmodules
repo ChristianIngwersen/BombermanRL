@@ -1,3 +1,6 @@
 [submodule "playground"]
 	path = playground
 	url = https://github.com/MultiAgentLearning/playground
+[submodule "pytorch-pommerman-rl"]
+	path = pytorch-pommerman-rl
+	url = https://github.com/rwightman/pytorch-pommerman-rl
