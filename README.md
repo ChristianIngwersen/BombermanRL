@@ -15,4 +15,4 @@ The overall goal with the project is to make a submission to the NIPS 2018 compe
 ## Policy gradient learning vs. evolutionary learning
 We'll start by using [Ross Wightman's PyTorch model](https://github.com/rwightman/pytorch-pommerman-rl) as a starting point. He succeds to beat three SimpleAgents **_95%_** of the games using policy gradient learning. 
 
-We believe that evolutionary learning will be a good approach to the Pommerman problem because the reward of the game is only calculated once
+We believe that evolutionary learning will be a good approach to the Pommerman problem because the reward of the game is only calculated once, the variance of each action evaluation is less impactful and since the evaluation time is far smaller, more training steps can be achieved.
