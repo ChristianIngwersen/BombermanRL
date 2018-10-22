@@ -18,7 +18,7 @@ When we have a succesfull agent for the FFA enviroment, we'll expand it to the T
 We'll start by using [Ross Wightman's PyTorch model](https://github.com/rwightman/pytorch-pommerman-rl) as a starting point. With his model he succeds to beat three SimpleAgents **_95%_** of the games using policy gradient learning. 
 
 #### Policy gradient learning vs. evolutionary learning
-We believe that evolutionary learning will be a good approach to the Pommerman problem because the reward of the game is only calculated once, the variance of the reward per action evaluation is less impactful and since the evaluation time is far smaller, more training steps can be achieved and thus a presumably a better performance. Policy gradient is usually better than evolutionary learning if the reward is calculated each time an action is taken.
+We believe that evolutionary learning will be a good approach to the Pommerman problem. Policy gradient is usually better than evolutionary learning if the actual reward is calculated each time an action is taken since the variance of the evaluation of evolutionary learning per action is high. This environment only calculates the expected reward per action and the actual reward is only calculated when the game ends. Thus the variance of the expected reward is less impactful of the actual reward. The evaluation time of evolutionary learning is a lot lower than policy gradiant. Therefore, more training evaluations can be done and presumably a higher performance can be achieved in the same time from evolutionary learning.
 
 To test our hypothesis we'll try to train an agent using evolutionary learning and compare our results to the results obtained by *Ross Wightman*.
 
