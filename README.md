@@ -20,9 +20,9 @@ To test our hypothesis we'll try to train an agent using evolutionary learning a
 The overall goal with the project is to make a submission to the NIPS 2018 competition (*Deadline November 21st*).
 
 **The subgoals to our agents are the following:**
-  - Train a consistent FFA agent to beat three RandomAgents on average more then 50% of the times
-  - Train a consistent FFA agent to beat one RandomAgent and two SimpleAgents on average more then 50% of the times
-  - Train a consistent FFA agent to beat three SimpleAgents on average more then 50% of the times
+  - Train a consistent FFA agent to beat three RandomAgents on average more than 50% of the times
+  - Train a consistent FFA agent to beat one RandomAgent and two SimpleAgents on average more than 50% of the times
+  - Train a consistent FFA agent to beat three SimpleAgents on average more than 50% of the times
 
 Here the **_RandomAgents_** are agents taking completely random actions and **_SimpleAgents_** is a benchmark agent given by the Pommerman community as a benchmark on how good an agent should be before a submission. 
 
