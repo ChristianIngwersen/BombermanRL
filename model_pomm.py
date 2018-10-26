@@ -128,6 +128,7 @@ class PommNet(NNBase):
         self.other_shape = [3]
         input_channels = (obs_shape[0] - self.other_shape[0]) // (bs*bs)
         self.image_shape = [input_channels, bs, bs]
+        print(self.image_shape)
         assert np.prod(obs_shape) >= np.prod(self.image_shape)
 
         if cnn_config == 'conv3':
@@ -157,13 +158,15 @@ class PommNet(NNBase):
         )
 
     def forward(self, inputs, rnn_hxs, masks):
-
-        inputs_image = inputs[:, :-self.other_shape[0]].view([-1] + self.image_shape)
-        inputs_other = inputs[:, -self.other_shape[0]:]
+        inputs = torch.from_numpy(inputs).float()
+        inputs_image = inputs[:-self.other_shape[0]].view([-1] + self.image_shape).float()
+        inputs_other = inputs[-self.other_shape[0]:].float()
         
         x_conv = self.common_conv(inputs_image)
         x_mlp = self.common_mlp(inputs_other)
-        x = torch.cat([x_conv, x_mlp], dim=1)
+        print(x_mlp.shape)
+        print(x_conv.shape)
+        x = torch.cat([x_conv.view(-1), x_mlp], dim=0)
         #x = x_conv + x_mlp
 
         if self.is_recurrent:
