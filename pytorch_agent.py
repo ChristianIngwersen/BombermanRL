@@ -35,7 +35,8 @@ class PytorchAgent(pommerman.agents.BaseAgent):
         max_flat_obs = np.concatenate([obs_unflat.spaces[0].high.flatten(), obs_unflat.spaces[1].high])
         self.observation_space = spaces.Box(min_flat_obs, max_flat_obs)
         self.masks = torch.zeros(1, 1) # Is true if recurrent == False
-        state_list = torch.load(os.path.join(os.path.curdir, 'PommeFFACompetitionFast-v0.pt')) # Needed for loading in simple_ffa_run
+        path = os.path.join('../../', 'PommeFFACompetitionFast-v0.pt')
+        state_list = torch.load(path) # Needed for loading in simple_ffa_run
         self.policy = Policy(PommNet(obs_shape=self.observation_space.shape,**self.nn_kwargs),action_space=spaces.Discrete(6)) #Observations Space is apperently 9*11*11 + 3, action_space is from v0
         self.policy.load_state_dict(state_list[0]) # load saved model into weights
         self.recurrent_hidden_state = 1 # Is one if recurrent == False
