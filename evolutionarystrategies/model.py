@@ -45,8 +45,7 @@ class model():
         copy.params = self.params
         copy.policy.load_state_dict(copy.params)
         return copy
-
-    # TODO: change update params to allow for updateing of neural network.
+-    # TODO: change update params to allow for updateing of neural network.
     def updateparams(self, epsilon, rewards, learningrate):
         for idx,reward in enumerate(rewards):
         	for key,weights in epsilon[idx].items():
