@@ -12,3 +12,4 @@ for _ in range(5):
     Evostrat.evolution()
     print(Model.params)
 
+Fitness.run_game()

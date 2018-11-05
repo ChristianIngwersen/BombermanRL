@@ -37,7 +37,7 @@ class model():
         self.policy = Policy(PommNet(obs_shape=self.observation_space.shape,**self.nn_kwargs),action_space=spaces.Discrete(6))
         self.params = self.policy.state_dict()
         self.recurrent_hidden_state = 1
-        
+
     # TODO: change update params to allow for updateing of neural network.
     def updateparams(self, epsilon, rewards, learningrate):
         best_reward = np.argmax(rewards)
@@ -50,7 +50,7 @@ class model():
         	shape_dict[key] = weights.shape
         return shape_dict
 
-    # TODO: function to mimic agents and to take actions
+    # TODO: function to mimic agents and to take actions. Look at the code from the guy.
     def act(self, state):
     	new_obs = featurize(obs,self.config)
         _, action, _, self.recurrent_hidden_state = self.policy.act(new_obs, self.recurrent_hidden_state, self.masks)
