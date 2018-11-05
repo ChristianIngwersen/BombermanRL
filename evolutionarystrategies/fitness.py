@@ -10,6 +10,7 @@ class fitness():
     def __init__(self):
         self.is_made = True
 
+        self.render = False
         # Create a set of agents (exactly four)
         agent_list = [
             agents.SimpleAgent(),
@@ -17,7 +18,6 @@ class fitness():
             agents.SimpleAgent(),
             agents.SimpleAgent(),
             # agents.RandomAgent(),
-
             # agents.DockerAgent("pommerman/simple-agent", port=12345),
         ]
         # Make the "Free-For-All" environment using the agent list
@@ -34,7 +34,8 @@ class fitness():
             state = self.env.reset()
             done = False
             while not done:
-                self.env.render()
+                if self.render:
+                    self.env.render()
                 actions = self.env.act(state)
                 state, reward, done, info = self.env.step(actions)
             print('Episode {} finished'.format(i_episode))
