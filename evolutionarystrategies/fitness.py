@@ -20,7 +20,7 @@ class fitness():
         return sum(model.params)+sum(epsilon)
 
     def evaluate(self, model, epsilon):
-        tmp_model = model
+        tmp_model = model.__copy__()
         for key, weights in epsilon.items():
             tmp_model.params[key] += weights
 

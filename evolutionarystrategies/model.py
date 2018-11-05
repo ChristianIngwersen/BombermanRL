@@ -40,6 +40,11 @@ class model():
         self.params = self.policy.state_dict()
         self.recurrent_hidden_state = 1
 
+    def __copy__(self):
+        copy = model()
+        copy.params = self.params
+        return copy
+
     # TODO: change update params to allow for updateing of neural network.
     def updateparams(self, epsilon, rewards, learningrate):
         best_reward = np.argmax(rewards)
@@ -59,5 +64,4 @@ class model():
         _, action, _, self.recurrent_hidden_state = self.policy.act(new_obs, self.recurrent_hidden_state, self.masks)
         return action.numpy()
 
-    def __copy__(self):
-        return None
+
