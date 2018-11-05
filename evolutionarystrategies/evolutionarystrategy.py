@@ -1,15 +1,13 @@
-### evolutionarystrategy python file
-#import random
 import torch
 
-class evolutinarystrategy():
+
+class EvolutionaryStrategy:
 
     def __init__(self, model, fitness, populationsize=10, learning_rate=0.5):
         self.model = model
         self.fitness = fitness
         self.learning_rate = learning_rate
         self.populationsize = populationsize
-
 
     def evolution(self):
         rewards = []
@@ -33,4 +31,5 @@ class evolutinarystrategy():
             rewards.append(reward)
 
         # update the parameters of the model, based on the reward and epsilon
-        self.model.updateparams(epsilons, rewards, self.learning_rate)
+        print('Max reward {}'.format(max(rewards)))
+        self.model.update_params(epsilons, rewards, self.learning_rate)

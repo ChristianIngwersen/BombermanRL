@@ -1,15 +1,12 @@
-from evolutionarystrategy import evolutinarystrategy
-from fitness import fitness
-from model import model
+from evolutionarystrategy import EvolutionaryStrategy
+from fitness import Fitness
+from model import Model
 
 
-Model = model()
-Fitness = fitness()
-Evostrat = evolutinarystrategy(Model, Fitness)
+model = Model()
+fitness = Fitness()
+evo_strat = EvolutionaryStrategy(model, fitness)
 
 
-#for _ in range(5):
-#    Evostrat.evolution()
-#    print(Model.params)
-
-Evostrat.evolution()
+for _ in range(5):
+    evo_strat.evolution()
