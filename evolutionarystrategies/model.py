@@ -33,7 +33,9 @@ class model():
         max_flat_obs = np.concatenate([obs_unflat.spaces[0].high.flatten(), obs_unflat.spaces[1].high])
         self.observation_space = spaces.Box(min_flat_obs, max_flat_obs)
         self.masks = torch.zeros(1, 1) # Is true if recurrent == False
-        state_list = torch.load(path) # Needed for loading in simple_ffa_run
+
+        #state_list = torch.load(path) # Needed for loading in simple_ffa_run
+
         self.policy = Policy(PommNet(obs_shape=self.observation_space.shape,**self.nn_kwargs),action_space=spaces.Discrete(6))
         self.params = self.policy.state_dict()
         self.recurrent_hidden_state = 1
@@ -42,16 +44,16 @@ class model():
     def updateparams(self, epsilon, rewards, learningrate):
         best_reward = np.argmax(rewards)
         for key,weights in epsilon[best_reward].items():
-        	self.params[key] += weights
+            self.params[key] += weights
 
     def shape(self):
         shape_dict = {}
         for key,weights in self.params.items():
-        	shape_dict[key] = weights.shape
+            shape_dict[key] = weights.shape
         return shape_dict
 
     # TODO: function to mimic agents and to take actions. Look at the code from the guy.
     def act(self, state):
-    	new_obs = featurize(obs,self.config)
+        new_obs = featurize(obs,self.config)
         _, action, _, self.recurrent_hidden_state = self.policy.act(new_obs, self.recurrent_hidden_state, self.masks)
         return action.numpy()
