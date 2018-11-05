@@ -43,13 +43,15 @@ class model():
     def __copy__(self):
         copy = model()
         copy.params = self.params
+        copy.policy.load_state_dict(copy.params)
         return copy
 
     # TODO: change update params to allow for updateing of neural network.
     def updateparams(self, epsilon, rewards, learningrate):
-        best_reward = np.argmax(rewards)
-        for key,weights in epsilon[best_reward].items():
-            self.params[key] += weights
+        for idx,reward in enumerate(rewards):
+        	for key,weights in epsilon[idx].items():
+            	self.params[key] += learningrate*1/len(reward)*reward*weights
+        self.policy.load_state_dict(self.params)
 
     def shape(self):
         shape_dict = {}
