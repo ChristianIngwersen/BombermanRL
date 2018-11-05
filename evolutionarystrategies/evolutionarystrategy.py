@@ -17,11 +17,16 @@ class evolutinarystrategy():
         for i in range(self.populationsize):
             # random noise
             epsilon = {}
-            for key, shape in self.model.shape():
-                epsilon[key] = torch.randn(shape)
+            for key, shape in self.model.shape().items():
+                if self.model.params[key].type() == "torch.FloatTensor":
+                    epsilon[key] = torch.randn(shape).float()
+                elif self.model.params[key].type() == "torch.LongTensor":
+                    epsilon[key] = torch.randn(shape).long()
+                else:
+                    epsilon[key] = torch.randn(shape)
 
             # fitness function
-            reward = self.fitness.max(self.model, epsilon)
+            reward = self.fitness.evaluate(self.model, epsilon)
 
             # book keeping
             epsilons.append(epsilon)

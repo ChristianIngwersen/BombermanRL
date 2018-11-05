@@ -139,7 +139,6 @@ class PommermanEnvWrapper(gym.Wrapper):
         else:
             agent_state = featurize(
                 state[self.env.training_agent],
-                self.env.training_agent,
                     self.feature_config)
         agent_reward = reward[self.env.training_agent]
         return agent_state, agent_reward, done, {}
@@ -151,7 +150,6 @@ class PommermanEnvWrapper(gym.Wrapper):
         else:
             agent_obs = featurize(
                 obs[self.env.training_agent],
-                self.env.training_agent,
                 self.feature_config)
         return agent_obs
 

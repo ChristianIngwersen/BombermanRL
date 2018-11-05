@@ -54,6 +54,10 @@ class model():
 
     # TODO: function to mimic agents and to take actions. Look at the code from the guy.
     def act(self, state):
-        new_obs = featurize(obs,self.config)
+        #new_obs = featurize(state, self.config)
+        new_obs = state
         _, action, _, self.recurrent_hidden_state = self.policy.act(new_obs, self.recurrent_hidden_state, self.masks)
         return action.numpy()
+
+    def __copy__(self):
+        return None

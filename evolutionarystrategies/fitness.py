@@ -2,6 +2,8 @@
 #import numpy as np
 import pommerman
 from pommerman import agents
+from pommerman_script import make_env
+
 
 
 class fitness():
@@ -10,26 +12,21 @@ class fitness():
     def __init__(self):
         self.is_made = True
         self.num_episode = 1
-        self.render = False
+        self.render = True
 
-        # Create a set of agents (exactly four)
-        agent_list = [
-            agents.SimpleAgent(),
-            agents.SimpleAgent(),
-            agents.SimpleAgent(),
-            agents.SimpleAgent(),
-            # agents.RandomAgent(),
-            # agents.DockerAgent("pommerman/simple-agent", port=12345),
-        ]
-        # Make the "Free-For-All" environment using the agent list
-        self.env = pommerman.make('PommeFFACompetition-v0', agent_list)
-
-
+        self.env = make_env("PommeFFAPartialFast-v0")
 
     def max(self, model, epsilon):
         return sum(model.params)+sum(epsilon)
 
-    def run_game(self):
+    def evaluate(self, model, epsilon):
+        tmp_model = model
+        for key, weights in epsilon.items():
+            tmp_model.params[key] += weights
+
+        return self.run_game(tmp_model)
+
+    def run_game(self, model):
         # Run the episodes just like OpenAI Gym
         for i_episode in range(self.num_episode):
             state = self.env.reset()
@@ -38,12 +35,12 @@ class fitness():
             while not done:
                 if self.render:
                     self.env.render()
-                actions = self.env.act(state)
+
+                #print(state)
+                actions = model.act(state)
                 state, reward, done, info = self.env.step(actions)
 
-
-                playerstate = (state[0])
-                fitness += self.survive_fitness(playerstate)
+                fitness += self.survive_fitness(state)
 
 
             print('Episode {} finished'.format(i_episode))
@@ -54,10 +51,12 @@ class fitness():
 
     # Fitness function based on surviving for as long as possible
     def survive_fitness(self, playerstate):
-        if 10 in playerstate['alive']:
-            return 1
-        else:
-            return 0
-
+        #print(playerstate)
+        #if 10 in playerstate['alive']:
+        #    return 1
+        #else:
+        #    return 0
+        print(playerstate)
+        return 1
 
     # TODO: define fitness function for evn
