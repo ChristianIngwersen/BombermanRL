@@ -6,7 +6,7 @@ class model():
     def __init__(self):
         self.params = [0]*10
         self.reward = -1
-        
+
     # TODO: change update params to allow for updateing of neural network.
     def updateparams(self, epsilon, rewards, learningrate):
         best_reward = np.argmax(rewards)
@@ -15,6 +15,6 @@ class model():
     def shape(self):
         return len(self.params)
 
-    # TODO: function to mimic agents and to take actions
+    # TODO: function to mimic agents and to take actions. Look at the code from the guy.
     def act(self, state):
         return 0
