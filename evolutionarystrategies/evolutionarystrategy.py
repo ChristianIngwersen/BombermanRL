@@ -1,5 +1,5 @@
 import torch
-
+import numpy as np
 
 class EvolutionaryStrategy:
 
@@ -24,12 +24,12 @@ class EvolutionaryStrategy:
                     epsilon[key] = torch.randn(shape)
 
             # fitness function
-            reward = self.fitness.evaluate(self.model, epsilon)
+            reward = self.fitness.evaluate(self.model, epsilon,self.learning_rate, 0.5)
 
             # book keeping
             epsilons.append(epsilon)
             rewards.append(reward)
 
         # update the parameters of the model, based on the reward and epsilon
-        print('Max reward {}'.format(max(rewards)))
+        #print('Avg reward {}'.format(np.mean(rewards)))
         self.model.update_params(epsilons, rewards, self.learning_rate)

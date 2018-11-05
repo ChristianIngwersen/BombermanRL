@@ -37,8 +37,8 @@ class Model:
         self.params = self.policy.state_dict()
         self.recurrent_hidden_state = 1
 
-    def __copy__(self):
-        copy = model()
+    def copy(self):
+        copy = Model()
         copy.params = self.params
         copy.policy.load_state_dict(copy.params)
         return copy
