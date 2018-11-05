@@ -1,6 +1,6 @@
 ### evolutionarystrategy python file
 #import random
-import numpy as np
+import torch
 
 class evolutinarystrategy():
 
@@ -16,7 +16,9 @@ class evolutinarystrategy():
         epsilons = []
         for i in range(self.populationsize):
             # random noise
-            epsilon = np.random.choice([0, 1], self.model.shape())
+            epsilon = {}
+            for key, shape in self.model.shape():
+                epsilon[key] = torch.randn(shape)
 
             # fitness function
             reward = self.fitness.max(self.model, epsilon)
