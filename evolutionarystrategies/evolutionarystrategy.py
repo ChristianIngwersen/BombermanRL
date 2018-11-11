@@ -24,7 +24,7 @@ class EvolutionaryStrategy:
                     epsilon[key] = torch.randn(shape)
 
             # fitness function
-            reward = self.fitness.evaluate(self.model, epsilon,self.learning_rate, 0.5)
+            reward = self.fitness.evaluate(self.model, epsilon, self.learning_rate, 0.5)
 
             # book keeping
             epsilons.append(epsilon)

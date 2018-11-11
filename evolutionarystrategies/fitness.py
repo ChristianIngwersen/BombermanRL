@@ -12,15 +12,15 @@ class Fitness:
     def max(self, model, epsilon):
         return sum(model.params)+sum(epsilon)
 
-    def evaluate(self, model, epsilon, learning_rate,impact):
+    def evaluate(self, model, epsilon, learning_rate, impact):
         tmp_model = model.copy()
         if epsilon==0:
-        	self.train=False
-        	pass
+            self.train=False
+            pass
         else:
-        	self.train=True
-        	for key, weights in epsilon.items():
-        		tmp_model.params[key] += learning_rate*weights
+            self.train=True
+            for key, weights in epsilon.items():
+                tmp_model.params[key] += learning_rate*weights
         return self.run_game(tmp_model,impact)
 
     def run_game(self, model,impact):
@@ -36,9 +36,9 @@ class Fitness:
                 actions = model.act(state)
                 state, reward, done, info = self.env.step(actions)
                 if self.train:
-                	episode_fitness += self.survive_fitness(impact)/1000
+                    episode_fitness += self.survive_fitness(impact)/1000
             if reward>0:
-            	episode_fitness += reward*(1-impact)
+                episode_fitness += reward*(1-impact)
             fitness.append(episode_fitness)
         self.env.close()
         return sum(fitness)/len(fitness)
