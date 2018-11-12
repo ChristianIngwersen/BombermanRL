@@ -160,18 +160,19 @@ class PommNet(NNBase):
         inputs = torch.from_numpy(inputs).float()
         inputs_image = inputs[:-self.other_shape[0]].view([-1] + self.image_shape).float()
         inputs_other = inputs[-self.other_shape[0]:].float()
-        
+
         x_conv = self.common_conv(inputs_image)
         x_mlp = self.common_mlp(inputs_other)
-        x = torch.cat([x_conv.view(-1), x_mlp], dim=0)
-        #x = x_conv + x_mlp
+        #change mlp from [128] -> [1,128]
+        x_mlp = x_mlp.unsqueeze(0)
 
+        #hack for recurrent net, only look at previous states and not actions
+        x = x_conv
         if self.is_recurrent:
             x, rnn_hxs = self._forward_gru(x, rnn_hxs, masks)
 
+        x = torch.cat([x_conv, x_mlp], dim=1)
         out_actor = self.actor(x)
         out_value = self.critic(x)
 
         return out_value, out_actor, rnn_hxs
-
-

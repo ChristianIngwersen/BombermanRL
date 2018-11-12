@@ -12,7 +12,7 @@ class Model:
     def __init__(self):
         self.nn_kwargs={
             'batch_norm':  True,
-            'recurrent': False,
+            'recurrent': True,
             'hidden_size': 512,
         } # Found in main.py
         self.config = {
@@ -35,7 +35,7 @@ class Model:
         self.masks = torch.zeros(1, 1)  # Is true if recurrent == False
         self.policy = Policy(PommNet(obs_shape=self.observation_space.shape,**self.nn_kwargs),action_space=spaces.Discrete(6))
         self.params = self.policy.state_dict()
-        self.recurrent_hidden_state = 1
+        self.recurrent_hidden_state = torch.zeros(1,self.policy.recurrent_hidden_state_size)
 
     def copy(self):
         copy = Model()
@@ -59,5 +59,3 @@ class Model:
         new_obs = state
         _, action, _, self.recurrent_hidden_state = self.policy.act(new_obs, self.recurrent_hidden_state, self.masks)
         return action.numpy()
-
-

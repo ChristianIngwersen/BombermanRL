@@ -1,7 +1,7 @@
 import torch
 import numpy as np
-import pathos.multiprocessing as mp
-
+#import pathos.multiprocessing as mp
+import multiprocessing as mp
 
 class EvolutionaryStrategy:
 
@@ -12,8 +12,8 @@ class EvolutionaryStrategy:
         self.learning_rate = learning_rate
         self.populationsize = populationsize
 
-    def evolution(self,id):
-        
+    def evolution(self,impact,id):
+
         epsilon = {}
         for key, shape in self.model.shape().items():
             if self.model.params[key].type() == "torch.FloatTensor":
@@ -23,13 +23,13 @@ class EvolutionaryStrategy:
             else:
                 epsilon[key] = torch.randn(shape)
         # fitness function
-        reward = self.fitness.evaluate(self.model, epsilon,self.learning_rate, 0.5,id)
+        reward = self.fitness.evaluate(self.model, epsilon,self.learning_rate, impact ,id)
         return reward, epsilon    # book keeping
-        
-        
 
-    def play_game(self):
-        reward = self.fitness.evaluate(self.model, 0, 0, 0,1)
+
+
+    def play_game(self, impact):
+        reward = self.fitness.evaluate(self.model, 0, 0, impact,0)
 
         return reward
 
@@ -62,4 +62,3 @@ class EvolutionaryStrategy:
             epsilons.append(epsilon)
             rewards.append(reward)
         self.model.update_params(epsilons, rewards, self.learning_rate)
-
