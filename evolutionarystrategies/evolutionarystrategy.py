@@ -5,14 +5,15 @@ import multiprocessing as mp
 
 class EvolutionaryStrategy:
 
-    def __init__(self, model, fitness, processes=4, populationsize=10, learning_rate=0.5):
+    def __init__(self, model, fitness, impact, processes=4, populationsize=10, learning_rate=0.5):
         self.model = model()
         self.processes = processes
         self.fitness = fitness(individuals=populationsize)
         self.learning_rate = learning_rate
         self.populationsize = populationsize
+        self.impact = impact
 
-    def evolution(self,impact,id):
+    def evolution(self,id):
 
         epsilon = {}
         for key, shape in self.model.shape().items():
@@ -23,13 +24,13 @@ class EvolutionaryStrategy:
             else:
                 epsilon[key] = torch.randn(shape)
         # fitness function
-        reward = self.fitness.evaluate(self.model, epsilon,self.learning_rate, impact ,id)
-        return reward, epsilon    # book keeping
+        reward = self.fitness.evaluate(self.model, epsilon,self.learning_rate, self.impact ,id)
+        return reward #, epsilon)    # book keeping
 
 
 
-    def play_game(self, impact):
-        reward = self.fitness.evaluate(self.model, 0, 0, impact,0)
+    def play_game(self):
+        reward = self.fitness.evaluate(self.model, 0, 0, self.impact,0)
 
         return reward
 
@@ -37,11 +38,12 @@ class EvolutionaryStrategy:
 
         pool = mp.Pool(processes=self.processes)
         results = pool.map(self.evolution,range(self.populationsize))
-        rewards = [r[0] for r in results]
-        epsilons = [r[1] for r in results]
+        #pool.close()
+        #rewards = [r[0] for r in results]
+        #epsilons = [r[1] for r in results]
         # Setup a list of processes that we want to run
         #processes = [mp.Process(target=self.evolution, args=(x, output)) for x in range(permutations)]
-        self.model.update_params(epsilons, rewards, self.learning_rate)
+        #self.model.update_params(epsilons, self.learning_rate)
         # Run processes
         '''for p in processes:
             p.start()
@@ -58,7 +60,7 @@ class EvolutionaryStrategy:
         epsilons = []
         rewards = []
         for _ in range(self.populationsize):
-            reward, epsilon = self.evolution(1)
+            reward, epsilon = self.evolution(impact,1)
             epsilons.append(epsilon)
             rewards.append(reward)
         self.model.update_params(epsilons, rewards, self.learning_rate)
