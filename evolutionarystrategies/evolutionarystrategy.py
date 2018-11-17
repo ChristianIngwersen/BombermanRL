@@ -13,7 +13,7 @@ class EvolutionaryStrategy:
         self.populationsize = populationsize
         self.impact = impact
 
-    def evolution(self,id):
+    def evolution(self,id, output):
 
         epsilon = {}
         for key, shape in self.model.shape().items():
@@ -25,8 +25,8 @@ class EvolutionaryStrategy:
                 epsilon[key] = torch.randn(shape)
         # fitness function
         reward = self.fitness.evaluate(self.model, epsilon,self.learning_rate, self.impact ,id)
-        return reward #, epsilon)    # book keeping
-
+        output.put((reward , epsilon))    # book keeping
+        return
 
 
     def play_game(self):
@@ -36,11 +36,10 @@ class EvolutionaryStrategy:
 
     def parallel_evolution(self):
 
-        pool = mp.Pool(processes=self.processes)
+        pool = mp.Pool(self.processes)
         results = pool.map(self.evolution,range(self.populationsize))
         #pool.close()
-        #rewards = [r[0] for r in results]
-        #epsilons = [r[1] for r in results]
+        
         # Setup a list of processes that we want to run
         #processes = [mp.Process(target=self.evolution, args=(x, output)) for x in range(permutations)]
         #self.model.update_params(epsilons, self.learning_rate)
