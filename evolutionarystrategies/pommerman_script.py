@@ -49,7 +49,7 @@ def get_unflat_obs_space(channels=15, board_size=11, rescale=True):
         gym.spaces.Box(min_other_obs, max_other_obs)])
 
 
-def featurize(obs, config):
+def featurize(obs, agent_id, config):
     max_item = pommerman.constants.Item.Agent3.value
 
     ob = obs["board"]
@@ -62,7 +62,7 @@ def featurize(obs, config):
 
     # replace agent item channels with friend, enemy, self channels
     if config['recode_agents']:
-        self_value = pommerman.constants.Item.Agent0.value + 0
+        self_value = pommerman.constants.Item.Agent0.value + agent_id
         enemies = np.logical_and(ob >= pommerman.constants.Item.Agent0.value, ob != self_value)
         self = (ob == self_value)
         friends = (ob == pommerman.constants.Item.AgentDummy.value)
@@ -139,6 +139,7 @@ class PommermanEnvWrapper(gym.Wrapper):
         else:
             agent_state = featurize(
                 state[self.env.training_agent],
+                	self.env.training_agent,
                     self.feature_config)
         agent_reward = reward[self.env.training_agent]
         return agent_state, agent_reward, done, {}
@@ -150,6 +151,7 @@ class PommermanEnvWrapper(gym.Wrapper):
         else:
             agent_obs = featurize(
                 obs[self.env.training_agent],
+                self.env.training_agent,
                 self.feature_config)
         return agent_obs
 
