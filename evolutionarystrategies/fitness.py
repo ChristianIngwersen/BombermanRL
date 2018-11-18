@@ -25,7 +25,6 @@ class Fitness:
         tmp_model = model.copy()
         if epsilon==0:
         	self.train=False
-        	pass
         else:
         	self.train=True
         	for key, weights in epsilon.items():
@@ -36,7 +35,7 @@ class Fitness:
         # Run the episodes just like OpenAI Gym
         #self.env = pickle.loads(self.env)
         #print(self.envs.venv.venv.envs)
-        print(self.envs[id]().env)
+        #print(self.envs[id]().env)
         env = self.envs[id]().env
         fitness = []
         for i_episode in range(self.num_episode):
