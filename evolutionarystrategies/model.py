@@ -30,6 +30,7 @@ class Model:
                         'rescale': True,
                         } # Found in pommerman.py
         self.num_channels = 15 # Found in pommerman.py
+        self.transfer = transfer
         if self.config['recode_agents']:
             self.num_channels -= 2
         if self.config['compact_powerups']:
@@ -53,7 +54,7 @@ class Model:
         self.recurrent_hidden_state = torch.zeros(1,self.policy.recurrent_hidden_state_size)
 
     def copy(self):
-        copy = Model()
+        copy = Model(transfer=self.transfer)
         copy.params = self.params
         copy.policy.load_state_dict(copy.params)
         return copy

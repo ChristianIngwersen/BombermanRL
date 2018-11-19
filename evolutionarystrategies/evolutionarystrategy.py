@@ -24,13 +24,13 @@ class EvolutionaryStrategy:
             else:
                 epsilon[key] = torch.randn(shape)
         # fitness function
-        reward = self.fitness.evaluate(self.model, epsilon,self.learning_rate, self.impact ,id)
+        reward = self.fitness.evaluate(self.model, epsilon,self.learning_rate, self.impact,5 ,id)
         output.put((reward , epsilon))    # book keeping
         return
 
 
-    def play_game(self):
-        reward = self.fitness.evaluate(self.model, 0, 0, self.impact,0)
+    def play_game(self,num_episode):
+        reward = self.fitness.evaluate(self.model, 0, 0, self.impact, num_episode, 0)
 
         return reward
 
