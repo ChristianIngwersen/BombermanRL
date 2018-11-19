@@ -7,13 +7,13 @@ import numpy as np
 import csv
 import torch
 
-def generate_epsilone(seed):
+def generate_epsilon(seed, model):
 	torch.manual_seed(seed)
 	epsilon = {}
-	for key, shape in self.model.shape().items():
-		if self.model.params[key].type() == "torch.FloatTensor":
+	for key, shape in model.shape().items():
+		if model.params[key].type() == "torch.FloatTensor":
 			epsilon[key] = torch.randn(shape).float()
-		elif self.model.params[key].type() == "torch.LongTensor":
+		elif model.params[key].type() == "torch.LongTensor":
 			epsilon[key] = torch.randn(shape).long()
 		else:
 			epsilon[key] = torch.randn(shape)
@@ -44,7 +44,7 @@ if __name__ == '__main__':
 		#print(results)
 		rewards = [r[0] for r in results]
 		epsilons = []
-		seed = [epsilons.append(generate_epsilone(r[1])) for r in results]
+		seed = [epsilons.append(generate_epsilone(r[1], evo_strat.model)) for r in results]
 		evo_strat.model.update_params(epsilons, rewards, evo_strat.learning_rate)
 		print("Done with iteration {}".format(i))
 		if (i)%10==0:

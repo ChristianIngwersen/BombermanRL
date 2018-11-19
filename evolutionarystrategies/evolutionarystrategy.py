@@ -14,8 +14,7 @@ class EvolutionaryStrategy:
         self.impact = impact
 
     def evolution(self,id, output):
-        seed = int(torch.randint(0, 1000000, (1,)))
-
+        seed = int(torch.randint(0, 10000000, (1,)))
         torch.manual_seed(seed)
         epsilon = {}
         for key, shape in self.model.shape().items():
