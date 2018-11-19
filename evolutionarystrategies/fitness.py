@@ -49,8 +49,11 @@ class Fitness:
                 if self.train:
                 	episode_fitness += self.survive_fitness(impact,env)/1000
             if reward>0:
-                imp_total = sum(sum(impact[key]) for key in impact)
-                episode_fitness += reward*(1-imp_total)
+                if not impact == 0:
+                    imp_total = sum(sum(impact[key]) for key in impact)
+                    episode_fitness += reward*(1-imp_total)
+                else:
+                    episode_fitness += reward
             fitness.append(episode_fitness)
         env.close()
         return sum(fitness)/len(fitness)

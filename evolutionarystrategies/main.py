@@ -28,7 +28,7 @@ if __name__ == '__main__':
 	'imp_enemies': [0.15,0.15,0.15],
 	'imp_powerup': [0.15]
 	}
-	evo_strat = EvolutionaryStrategy(Model, Fitness, impact, populationsize=30, learning_rate = 1)
+	evo_strat = EvolutionaryStrategy(Model, Fitness, impact, populationsize=30, learning_rate = 0.01)
 	rewardcsv = open("Rewards.csv", "w")  
 	winratecsv = open("Winrate.csv", "w")
 	rewardcsv.close()
