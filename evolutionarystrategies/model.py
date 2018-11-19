@@ -9,12 +9,20 @@ from gym import spaces
 
 class Model:
 
-    def __init__(self):
-        self.nn_kwargs={
-            'batch_norm':  True,
-            'recurrent': True,
-            'hidden_size': 512,
-        } # Found in main.py
+    def __init__(self, transfer = False):
+        if transfer:
+            self.nn_kwargs={
+                'batch_norm':  True,
+                'recurrent': False,
+                'hidden_size': 512,
+            } # Found in main.py
+        else:
+            self.nn_kwargs = {
+                'batch_norm': True,
+                'recurrent': True,
+                'hidden_size': 512,
+            }  # Found in main.py
+
         self.config = {
                         'recode_agents': True,
                         'compact_powerups': True,
@@ -34,7 +42,14 @@ class Model:
         self.observation_space = spaces.Box(min_flat_obs, max_flat_obs)
         self.masks = torch.zeros(1, 1)  # Is true if recurrent == False
         self.policy = Policy(PommNet(obs_shape=self.observation_space.shape,**self.nn_kwargs),action_space=spaces.Discrete(6))
-        self.params = self.policy.state_dict()
+        if not transfer:
+            self.params = self.policy.state_dict()
+        else:
+            self.params = torch.load('../PommeFFACompetitionFast-v0.pt')[0]
+            self.policy.load_state_dict(self.params)
+
+
+
         self.recurrent_hidden_state = torch.zeros(1,self.policy.recurrent_hidden_state_size)
 
     def copy(self):

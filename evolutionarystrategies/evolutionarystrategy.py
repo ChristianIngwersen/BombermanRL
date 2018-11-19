@@ -6,7 +6,7 @@ import multiprocessing as mp
 class EvolutionaryStrategy:
 
     def __init__(self, model, fitness, impact, processes=4, populationsize=10, learning_rate=0.5):
-        self.model = model()
+        self.model = model(transfer = True)
         self.processes = processes
         self.fitness = fitness(individuals=populationsize)
         self.learning_rate = learning_rate
