@@ -57,6 +57,8 @@ class Fitness:
 
     # Fitness function based on surviving for as long as possible
     def survive_fitness(self,impact,env):
+        if impact == 0:
+            return 0
         state = env.env.get_observations()[0]
         score = 0
 
