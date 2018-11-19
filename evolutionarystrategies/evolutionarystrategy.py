@@ -13,8 +13,9 @@ class EvolutionaryStrategy:
         self.populationsize = populationsize
         self.impact = impact
 
-    def evolution(self,id, output):
-
+    def evolution(self, id, output):
+        seed = int(torch.randint(0,100000,(1,)))
+        torch.manual_seed(seed)
         epsilon = {}
         for key, shape in self.model.shape().items():
             if self.model.params[key].type() == "torch.FloatTensor":
@@ -25,13 +26,12 @@ class EvolutionaryStrategy:
                 epsilon[key] = torch.randn(shape)
         # fitness function
         reward = self.fitness.evaluate(self.model, epsilon,self.learning_rate, self.impact,5 ,id)
-        output.put((reward , epsilon))    # book keeping
+        output.put((reward , seed))    # book keeping
         return
 
 
     def play_game(self,num_episode):
         reward = self.fitness.evaluate(self.model, 0, 0, self.impact, num_episode, 0)
-
         return reward
 
     def parallel_evolution(self):

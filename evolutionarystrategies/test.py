@@ -8,6 +8,19 @@ import csv
 import torch
 
 
+def generate_epsilon(seed, model):
+	torch.manual_seed(seed)
+	epsilon = {}
+	for key, shape in model.shape().items():
+		if model.params[key].type() == "torch.FloatTensor":
+			epsilon[key] = torch.randn(shape).float()
+		elif model.params[key].type() == "torch.LongTensor":
+			epsilon[key] = torch.randn(shape).long()
+		else:
+			epsilon[key] = torch.randn(shape)
+
+	return epsilon
+
 
 if __name__ == '__main__':
 	impact = {
@@ -15,7 +28,7 @@ if __name__ == '__main__':
 	'imp_enemies': [0.15,0.15,0.15],
 	'imp_powerup': [0.15]
 	}
-	evo_strat = EvolutionaryStrategy(Model, Fitness, impact, populationsize=100, learning_rate = 1)
+	evo_strat = EvolutionaryStrategy(Model, Fitness, impact, populationsize=1, learning_rate = 1)
 	rewardcsv = open("Rewards.csv", "w")  
 	winratecsv = open("Winrate.csv", "w")
 	rewardcsv.close()
@@ -29,9 +42,9 @@ if __name__ == '__main__':
 		for p in processes:
 			p.join()
 		results = [output.get() for p in processes]
-		#print(results)
 		rewards = [r[0] for r in results]
-		epsilons = [r[1] for r in results]
+		epsilons = []
+		seed = [epsilons.append(generate_epsilon(r[1], evo_strat.model)) for r in results]
 		evo_strat.model.update_params(epsilons, rewards, evo_strat.learning_rate)
 		print("Done with iteration {}".format(i))
 		if (i)%10==0:
