@@ -105,5 +105,5 @@ venv.bak/
 
 .idea
 .DS_Store
-evolutaionarystrategies/*.csv
-evolutaionarystrategies/tmp/gym/*.csv
+evolutionarystrategies/*.csv
+evolutionarystrategies/tmp/gym/*.csv
