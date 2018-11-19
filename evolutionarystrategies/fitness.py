@@ -7,7 +7,6 @@ import torch
 class Fitness:
 
     def __init__(self,individuals):
-        self.num_episode = 5
         self.render = False
         self.envs = [make_env("PommeFFAPartialFast-v0", 1, i, './tmp/gym/', False, False) for i in range(individuals)]
         #self.envs = make_vec_envs("PommeFFAPartialFast-v0",1, individuals, 0.99, False, 1,'./tmp/gym/', False, torch.device("cpu"), allow_early_resets=False)
@@ -21,7 +20,7 @@ class Fitness:
     def max(self, model, epsilon):
         return sum(model.params)+sum(epsilon)
 
-    def evaluate(self, model, epsilon, learning_rate,impact,id):
+    def evaluate(self, model, epsilon, learning_rate,impact,num_episode,id):
         tmp_model = model.copy()
         if epsilon==0:
         	self.train=False
@@ -29,16 +28,16 @@ class Fitness:
         	self.train=True
         	for key, weights in epsilon.items():
         		tmp_model.params[key] += learning_rate*weights
-        return self.run_game(tmp_model,impact,id)
+        return self.run_game(tmp_model,impact,num_episode,id)
 
-    def run_game(self, model,impact,id):
+    def run_game(self, model,impact,num_episode,id):
         # Run the episodes just like OpenAI Gym
         #self.env = pickle.loads(self.env)
         #print(self.envs.venv.venv.envs)
         #print(self.envs[id]().env)
         env = self.envs[id]().env
         fitness = []
-        for i_episode in range(self.num_episode):
+        for i_episode in range(num_episode):
             state = env.reset()
             done = False
             episode_fitness = 0
