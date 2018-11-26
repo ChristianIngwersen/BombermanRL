@@ -38,6 +38,7 @@ class Fitness:
         env = self.envs[id]().env
         fitness = []
         for i_episode in range(num_episode):
+            game_length = 0
             state = env.reset()
             done = False
             episode_fitness = 0
@@ -46,15 +47,16 @@ class Fitness:
                     env.render()
                 actions = model.act(state)
                 state, reward, done, info = env.step(actions)
+                game_length += 1
                 if self.train:
-                	episode_fitness += self.survive_fitness(impact,env)/1000
+                	episode_fitness += self.survive_fitness(impact,env)
             if reward>0:
                 if not impact == 0:
                     imp_total = sum(sum(impact[key]) for key in impact)
                     episode_fitness += reward*(1-imp_total)
                 else:
                     episode_fitness += reward
-            fitness.append(episode_fitness)
+            fitness.append(episode_fitness/game_length)
         env.close()
         return sum(fitness)/len(fitness)
 
@@ -71,6 +73,8 @@ class Fitness:
             score += 1*impact['imp_enemies'][1]
         if not 13 in state['alive']:
             score += 1*impact['imp_enemies'][2]
+        if not 11 in state['alive'] and 12 in state['alive'] and 13 in state['alive']:
+            score *= 2
         if 10 in state['alive']:
             score += 1*impact['imp_team'][0]
         if state['can_kick']:
