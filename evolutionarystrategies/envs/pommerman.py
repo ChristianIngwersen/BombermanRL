@@ -214,9 +214,9 @@ def make_env(config):
     training_agent = TrainingAgent()
     agent_list = [
         training_agent,
-        pommerman.agents.RandomAgent(),
-        pommerman.agents.RandomAgent(),
-        pommerman.agents.RandomAgent(),
+        pommerman.agents.SimpleAgent(),
+        pommerman.agents.SimpleAgent(),
+        pommerman.agents.SimpleAgent(),
     ]
     if config == "PommeFFAPartialFast-v0":
         env_spec = _ffa_partial_fast_env()
