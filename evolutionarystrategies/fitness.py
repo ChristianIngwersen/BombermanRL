@@ -9,12 +9,6 @@ class Fitness:
     def __init__(self,individuals):
         self.render = False
         self.envs = [make_env("PommeFFAPartialFast-v0", 1, i, './tmp/gym/', False, False) for i in range(individuals)]
-        #self.envs = make_vec_envs("PommeFFAPartialFast-v0",1, individuals, 0.99, False, 1,'./tmp/gym/', False, torch.device("cpu"), allow_early_resets=False)
-        #self.env = cloudpickle.dumps(make_env("PommeFFAPartialFast-v0"))
-        #if individuals==1:
-        #    self.env = make_env("PommeFFAPartialFast-v0")
-        #else:
-        #    self.env = [make_env("PommeFFAPartialFast-v0") for _ in range(individuals)]
         self.train = True
 
     def max(self, model, epsilon):
@@ -30,11 +24,8 @@ class Fitness:
         		tmp_model.params[key] += learning_rate*weights
         return self.run_game(tmp_model,impact,num_episode,id)
 
-    def run_game(self, model,impact,num_episode,id):
+    def run_game(self, model, impact, num_episode, id):
         # Run the episodes just like OpenAI Gym
-        #self.env = pickle.loads(self.env)
-        #print(self.envs.venv.venv.envs)
-        #print(self.envs[id]().env)
         env = self.envs[id]().env
         fitness = []
         for i_episode in range(num_episode):
@@ -66,7 +57,6 @@ class Fitness:
             return 0
         state = env.env.get_observations()[0]
         score = 0
-
         if not 11 in state['alive']:
             score += 1*impact['imp_enemies'][0]
         if not 12 in state['alive']:

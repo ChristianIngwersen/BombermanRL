@@ -46,7 +46,7 @@ class Model:
         if not transfer:
             self.params = self.policy.state_dict()
         else:
-            self.params = torch.load('../PommeFFACompetitionFast-v0.pt')[0]
+            self.params = torch.load('model/Model.pt')
             self.policy.load_state_dict(self.params)
 
 
