@@ -3,6 +3,7 @@ from fitness import Fitness
 from model import Model
 import sys
 import multiprocessing as mp
+
 import numpy as np
 import csv
 import torch
@@ -35,6 +36,7 @@ impact = {
 }
 
 
+
 if rank == 0:
 	# Master work
 	print ("Master")
@@ -44,9 +46,8 @@ if rank == 0:
 
 else:
 	# Worker work
-	#fitness = Fitness(1)
-	#model = Model()
-	#reward = fitness.run_game(model, 0,1,0)
-	reward = 0
+	fitness = Fitness(1)
+	model = Model()
+	reward = fitness.run_game(model, 0, 1, 0)
 	reward_string = "The reward is {} from {}".format(reward, rank)
 	comm.send(reward_string, dest=0)

@@ -41,8 +41,8 @@ class Fitness:
             if self.render:
                 env.render()
             reward = 0
-            #actions = model.act(state)
-            #state, reward, done, info = env.step(actions)
+            actions = model.act(state)
+            state, reward, done, info = env.step(actions)
             game_length += 1
             if self.train:
                 episode_fitness += self.survive_fitness(impact, env)
@@ -54,7 +54,8 @@ class Fitness:
                 episode_fitness += reward
             fitness.append(episode_fitness/game_length)
         env.close()
-        return sum(fitness)/len(fitness)
+        return 100
+        return sum(fitness)
 
     # Fitness function based on surviving for as long as possible
     def survive_fitness(self,impact,env):
