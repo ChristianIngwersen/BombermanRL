@@ -33,7 +33,8 @@ impact = {
 'imp_enemies': [0.1,0.1,0.1],
 'imp_powerup': [0.02]
 }
-
+fitness = Fitness(1)
+model = Model()
 
 if rank == 0:
 	# Master work
@@ -44,9 +45,8 @@ if rank == 0:
 
 else:
 	# Worker work
-	#fitness = Fitness(1)
-	#model = Model()
-	#reward = fitness.run_game(model, 0,1,0)
-	reward = 0
+
+	reward = fitness.run_game(model, 0,1,0)
+	#reward = 0
 	reward_string = "The reward is {} from {}".format(reward, rank)
 	comm.send(reward_string, dest=0)

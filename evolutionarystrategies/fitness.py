@@ -30,7 +30,6 @@ class Fitness:
     def run_game(self, model,impact,num_episode,id):
         # Run the episodes just like OpenAI Gym
         env = self.envs().env
-
         fitness = []
         #for i_episode in range(num_episode):
         game_length = 0
@@ -41,18 +40,19 @@ class Fitness:
             if self.render:
                 env.render()
             reward = 0
-            #actions = model.act(state)
-            #state, reward, done, info = env.step(actions)
+            actions = model.act(state)
+            state, reward, done, info = env.step(actions)
             game_length += 1
             if self.train:
                 episode_fitness += self.survive_fitness(impact, env)
+        print(episode_fitness)    
         if reward > 0:
             if not impact == 0:
                 imp_total = sum(sum(impact[key]) for key in impact)
                 episode_fitness += reward*(1-imp_total)
             else:
                 episode_fitness += reward
-            fitness.append(episode_fitness/game_length)
+        fitness.append(episode_fitness/game_length)
         env.close()
         return sum(fitness)/len(fitness)
 
