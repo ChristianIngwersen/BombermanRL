@@ -54,7 +54,8 @@ class Fitness:
                 episode_fitness += reward
         fitness.append(episode_fitness/game_length)
         env.close()
-        return sum(fitness)/len(fitness)
+        return 100
+        return sum(fitness)
 
     # Fitness function based on surviving for as long as possible
     def survive_fitness(self,impact,env):

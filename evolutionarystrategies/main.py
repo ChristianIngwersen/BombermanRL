@@ -3,6 +3,7 @@ from fitness import Fitness
 from model import Model
 import sys
 import multiprocessing as mp
+
 import numpy as np
 import csv
 import torch
@@ -35,6 +36,7 @@ impact = {
 }
 fitness = Fitness(1)
 model = Model()
+
 
 if rank == 0:
 	# Master work
