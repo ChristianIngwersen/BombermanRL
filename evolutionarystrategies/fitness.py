@@ -44,8 +44,7 @@ class Fitness:
             state, reward, done, info = env.step(actions)
             game_length += 1
             if self.train:
-                episode_fitness += self.survive_fitness(impact, env)
-        print(episode_fitness)    
+                episode_fitness += self.survive_fitness(impact, env)   
         if reward > 0:
             if not impact == 0:
                 imp_total = sum(sum(impact[key]) for key in impact)
@@ -54,7 +53,6 @@ class Fitness:
                 episode_fitness += reward
         fitness.append(episode_fitness/game_length)
         env.close()
-        return 100
         return sum(fitness)
 
     # Fitness function based on surviving for as long as possible
