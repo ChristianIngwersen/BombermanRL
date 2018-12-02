@@ -25,8 +25,8 @@ def generate_epsilon(seed, model):
 if __name__ == '__main__':
 	impact = {
 	'imp_team': [0.01],
-	'imp_enemies': [0.15,0.15,0.15],
-	'imp_powerup': [0.15]
+	'imp_enemies': [0.1,0.1,0.1],
+	'imp_powerup': [0.02]
 	}
 	evo_strat = EvolutionaryStrategy(Model, Fitness, impact, populationsize=30, learning_rate = 0.01)
 	rewardcsv = open("Rewards.csv", "w")  

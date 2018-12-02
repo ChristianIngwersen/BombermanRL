@@ -74,8 +74,6 @@ class Fitness:
             score += 1*impact['imp_enemies'][1]
         if not 13 in state['alive']:
             score += 1*impact['imp_enemies'][2]
-        if not 11 in state['alive'] and 12 in state['alive'] and 13 in state['alive']:
-            score *= 2
         if 10 in state['alive']:
             score += 1*impact['imp_team'][0]
         if state['can_kick']:
