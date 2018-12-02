@@ -7,6 +7,12 @@ import numpy as np
 import csv
 import torch
 
+from mpi4py import MPI
+comm = MPI.COMM_WORLD   # Defines the default communicator
+num_procs = comm.Get_size()  # Stores the number of processes in size.
+rank = comm.Get_rank()  # Stores the rank (pid) of the current process
+stat = MPI.Status()
+
 
 def generate_epsilon(seed, model):
 	torch.manual_seed(seed)
@@ -22,42 +28,25 @@ def generate_epsilon(seed, model):
 	return epsilon
 
 
-if __name__ == '__main__':
-	impact = {
-	'imp_team': [0.01],
-	'imp_enemies': [0.1,0.1,0.1],
-	'imp_powerup': [0.02]
-	}
-	evo_strat = EvolutionaryStrategy(Model, Fitness, impact, populationsize=30, learning_rate = 0.01)
-	rewardcsv = open("Rewards.csv", "w")  
-	winratecsv = open("Winrate.csv", "w")
-	rewardcsv.close()
-	winratecsv.close()
-	for i in range(100):
-		manager = mp.Manager()
-		output = manager.Queue()
-		processes = [mp.Process(target=evo_strat.evolution, args=(x, output)) for x in range(evo_strat.populationsize)]
-		for p in processes:
-			p.start()
-		for p in processes:
-			p.join()
-		results = [output.get() for p in processes]
-		rewards = [r[0] for r in results]
-		epsilons = []
-		seed = [epsilons.append(generate_epsilon(r[1], evo_strat.model)) for r in results]
-		evo_strat.model.update_params(epsilons, rewards, evo_strat.learning_rate)
-		print("Done with iteration {}".format(i))
-		if (i)%10==0:
-			winrate = evo_strat.play_game(10)
-			print("Average win rate over 10 games {}".format(winrate))
-			rewardcsv = open("Rewards.csv", "a")  
-			winratecsv = open("Winrate.csv", "a")
-			with rewardcsv:
-				writer = csv.writer(rewardcsv)
-				writer.writerow(rewards)
-			with winratecsv:
-				writer = csv.writer(winratecsv)
-				writer.writerow([winrate])
-			rewardcsv.close()
-			winratecsv.close()
-	torch.save(evo_strat.model.policy.state_dict(),'Model.pt')
+impact = {
+'imp_team': [0.01],
+'imp_enemies': [0.1,0.1,0.1],
+'imp_powerup': [0.02]
+}
+
+
+if rank == 0:
+	# Master work
+	print ("Master")
+	for i in range(num_procs - 1):
+		msg = comm.recv(source=MPI.ANY_SOURCE, tag=MPI.ANY_TAG, status=stat)
+		print(msg)
+
+else:
+	# Worker work
+	#fitness = Fitness(1)
+	#model = Model()
+	#reward = fitness.run_game(model, 0,1,0)
+	reward = 0
+	reward_string = "The reward is {} from {}".format(reward, rank)
+	comm.send(reward_string, dest=0)

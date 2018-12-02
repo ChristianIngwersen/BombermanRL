@@ -29,7 +29,6 @@ class EvolutionaryStrategy:
         output.put((reward , seed))    # book keeping
         return
 
-
     def play_game(self,num_episode):
         reward = self.fitness.evaluate(self.model, 0, 0, 0, num_episode, 0)
         return reward
