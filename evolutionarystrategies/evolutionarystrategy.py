@@ -31,7 +31,7 @@ class EvolutionaryStrategy:
 
 
     def play_game(self,num_episode):
-        reward = self.fitness.evaluate(self.model, 0, 0, self.impact, num_episode, 0)
+        reward = self.fitness.evaluate(self.model, 0, 0, 0, num_episode, 0)
         return reward
 
     def parallel_evolution(self):
