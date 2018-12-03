@@ -1,9 +1,6 @@
-# from pommerman_script import make_env
-# import cloudpickle
-# import pickle
-from envs import make_env
-import torch
+from envs.pommerman import make_env
 import numpy as np
+
 
 
 class Fitness:
@@ -11,7 +8,7 @@ class Fitness:
     def __init__(self):
         self.render = False
         self.id = np.random.randint(0, 100)
-        self.envs = make_env("PommeFFAPartialFast-v0", 1, 0, './tmp/gym/', False, False)
+        self.env = make_env("PommeFFAPartialFast-v0")
         self.train = True
 
     def evaluate(self, model, epsilon, learning_rate, impact, num_episode):
@@ -26,21 +23,20 @@ class Fitness:
 
     def run_game(self, model, impact, num_episode):
         # Run the episodes just like OpenAI Gym
-        env = self.envs().env
         fitness = []
         for i_episode in range(num_episode):
             game_length = 0
-            state = env.reset()
+            state = self.env.reset()
             done = False
             episode_fitness = 0
             while not done:
                 if self.render:
-                    env.render()
+                    self.env.render()
                 actions = model.act(state)
-                state, reward, done, info = env.step(actions)
+                state, reward, done, info = self.env.step(actions)
                 game_length += 1
                 if self.train:
-                    episode_fitness += self.survive_fitness(impact, env)
+                    episode_fitness += self.survive_fitness(impact, self.env)
             episode_fitness /= game_length
             if reward > 0:
                 if not impact == 0:
@@ -49,7 +45,7 @@ class Fitness:
                 else:
                     episode_fitness += reward
             fitness.append(episode_fitness)
-            env.close()
+            self.env.close()
         return sum(fitness) / len(fitness)
 
     # Fitness function based on surviving for as long as possible
