@@ -1,4 +1,5 @@
-from envs.pommerman import make_env
+#from envs.pommerman import make_env
+from envs import make_env
 import numpy as np
 
 
@@ -8,7 +9,9 @@ class Fitness:
     def __init__(self):
         self.render = False
         self.id = np.random.randint(0, 100)
-        self.env = make_env("PommeFFAPartialFast-v0")
+        #self.env = make_env("PommeFFAPartialFast-v0")
+        self.envs = make_env("PommeFFAPartialFast-v0", 1, 1, './tmp/gym/', False, False)
+        self.env = self.envs().env
         self.train = True
 
     def evaluate(self, model, epsilon, learning_rate, impact, num_episode):

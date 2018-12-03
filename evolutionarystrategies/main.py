@@ -32,7 +32,6 @@ def generate_epsilon(seed, model):
 def slave():
 	# Worker work
 	evo_strat = EvolutionaryStrategy(Model, Fitness, impact, learning_rate = 0.01, transfer = True)
-
 	for i in range(0,100):
 		# Play a game and return the reward and seed.
 		reward, seed = evo_strat.evolution()
@@ -83,7 +82,7 @@ def master():
 			winratecsv.close()
 
 		if (i) % 50 == 0:
-			torch.save(evo_strat.model.policy.state_dict(), 'Model.pt')
+			torch.save(evo_strat.model.policy.state_dict(), 'model/Model.pt')
 
 if __name__ == '__main__':
 	if rank == 0:
