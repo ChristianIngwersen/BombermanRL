@@ -107,3 +107,4 @@ venv.bak/
 .DS_Store
 evolutionarystrategies/*.csv
 evolutionarystrategies/tmp/gym/*.csv
+evolutionarystrategies/data/*.csv
