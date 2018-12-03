@@ -13,7 +13,7 @@ class Model:
         if transfer:
             self.nn_kwargs={
                 'batch_norm':  True,
-                'recurrent': False,
+                'recurrent': True,
                 'hidden_size': 512,
             } # Found in main.py
         else:
@@ -42,11 +42,11 @@ class Model:
         max_flat_obs = np.concatenate([obs_unflat.spaces[0].high.flatten(), obs_unflat.spaces[1].high])
         self.observation_space = spaces.Box(min_flat_obs, max_flat_obs)
         self.masks = torch.zeros(1, 1)  # Is true if recurrent == False
-        self.policy = Policy(PommNet(obs_shape=self.observation_space.shape,**self.nn_kwargs),action_space=spaces.Discrete(6))
+        self.policy = Policy(PommNet(obs_shape=self.observation_space.shape,**self.nn_kwargs), action_space=spaces.Discrete(6))
         if not transfer:
             self.params = self.policy.state_dict()
         else:
-            self.params = torch.load('../PommeFFACompetitionFast-v0.pt')[0]
+            self.params = torch.load('model/Model.pt')
             self.policy.load_state_dict(self.params)
 
 

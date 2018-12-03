@@ -31,7 +31,7 @@ def generate_epsilon(seed, model):
 
 def slave():
 	# Worker work
-	evo_strat = EvolutionaryStrategy(Model, Fitness, impact, populationsize=30, learning_rate=0.01)
+	evo_strat = EvolutionaryStrategy(Model, Fitness, impact, learning_rate=0.01, transfer = True)
 
 	for i in range(0,100):
 		# Play a game and return the reward and seed.
@@ -51,7 +51,7 @@ def master():
 	rewardcsv.close()
 	winratecsv.close()
 
-	evo_strat = EvolutionaryStrategy(Model, Fitness, impact, populationsize=30, learning_rate=0.01)
+	evo_strat = EvolutionaryStrategy(Model, Fitness, impact, learning_rate=0.01, transfer= True)
 
 	for i in range(0,100):
 		seeds = []
@@ -72,7 +72,7 @@ def master():
 		if (i) % 10 == 0:
 			winrate = evo_strat.play_game(10)
 			print("Average win rate over 10 games {}".format(winrate))
-			rewardcsv = open("data/Rewards.csv", "a")
+			rewardcsv = open("data/Rewards.sv", "a")
 			winratecsv = open("data/Winrate.csv", "a")
 			with rewardcsv:
 				writer = csv.writer(rewardcsv)
