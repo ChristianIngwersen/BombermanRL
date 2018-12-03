@@ -46,7 +46,6 @@ def slave():
 def master():
 	import csv
 	print ("Master")
-	sys.stdout.flush()
 	rewardcsv = open("data/Rewards.csv", "w")
 	winratecsv = open("data/Winrate.csv", "w")
 	rewardcsv.close()
@@ -72,8 +71,7 @@ def master():
 		if (i) % 10 == 0:
 			winrate = evo_strat.play_game(10)
 			print("Average win rate over 10 games {}".format(winrate))
-			sys.stdout.flush()
-			rewardcsv = open("data/Rewards.sv", "a")
+			rewardcsv = open("data/Rewards.csv", "a")
 			winratecsv = open("data/Winrate.csv", "a")
 			with rewardcsv:
 				writer = csv.writer(rewardcsv)
