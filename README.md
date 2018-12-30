@@ -2,6 +2,9 @@
 DTU course 2456 Deep learning project. 
 We've chosen the Pommerman reinforcement learning project. The environment used is the [playground enviroment](https://github.com/MultiAgentLearning/playground) used for the NIPS 2018 Pommerman competition (<https://www.pommerman.com>).
 
+## Reproduce results:
+In order to reproduce the results presented in the final handin, you should run the notebook `evolutionarystrategies/ReproduceResults.ipynb`
+
 ## Motivation
 Reinforcement learning is still a field in rapid development. A currently on-going competition on NIPS is to explore Multi-agent Reinforcement learning. We want to participiate in this current on-going exploration and study different methodics and their performance for this given problem. 
 
